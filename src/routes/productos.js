@@ -37,6 +37,13 @@ router.put('/api/productos/:id', (req, res) => {
     res.status(200).json(updateProduct)
 })
 
+router.delete('/api/productos/:id', (req, res) => {
+    const { id } = req.params
+
+    const deletedProduct = productosService.deleteProduct(+id)
+
+    res.status(200).json(deletedProduct)
+})
 // router.delete('/:id', async (req, res) => {
 //     try {
 //         const { id } = req.params
