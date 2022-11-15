@@ -7,5 +7,8 @@ const products = require('./productos.js')
 router.use('/', products)
 //defino que las rutas de products contengan "/"
 
+
+router.get('*', (req, res) => { logger.warn(`Ruta ${req.url} con metodo ${req.method} no implementadas en el servidor.`) })
+
 module.exports = router
 //exporto para poder usar el enrrutador principal en app.js

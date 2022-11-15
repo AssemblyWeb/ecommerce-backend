@@ -2,37 +2,45 @@ const express = require('express')
 const router = express.Router()
 const { productosService } = require('../services/productosService')
 
-
-router.get('/api/productos', (_, res) => {
-    const allProducts = productosService.getAllProducts()
+router.get('/api/productos', async (_, res) => {
+    const allProducts = await productosService.getAllProducts()
     res.status(200).json(allProducts)
 })
 
-router.get('/api/productos/:id', (req, res) => {
+router.get('/api/productos/:id', async (req, res) => {
     const { id } = req.params
-    const productos = productosService.getProductById(+id)
-    res.status(200).json(productos)
+    const productId = await productosService.getProductById(+id)
+    res.status(200).json(productId)
 })
 
 
-router.post('/api/productos', (req, res) => {
-    const { title, price, thumbnail } = req.body
-    productosService.addProduct(title, +price, thumbnail)
-    res.status(200).json(title)
+router.post('/api/productos', async (req, res) => {
+    const { title, price, thumbnail, stock, description } = req.body
+    const newProduct = {
+        title: title || null,
+        price: +price || null,
+        thumbnail: thumbnail || null,
+        stock: +stock || null,
+        description: description || null
+    }
+    const addedProduct = await productosService.addProduct(newProduct)
+    res.status(200).json(addedProduct)
 })
 
 
-router.put('/api/productos/:id', (req, res) => {
+router.put('/api/productos/:id', async (req, res) => {
     const { id } = req.params
-    const { title, price, thumbnail } = req.body
+    const { title, price, thumbnail, stock, description } = req.body
     const productArguments = {
         id: +id,
         title: title || null,
         price: +price || null,
-        thumbnail: thumbnail || null
+        thumbnail: thumbnail || null,
+        stock: +stock || null,
+        description: description || null
     }
 
-    const updateProduct = productosService.updateProduct(productArguments)
+    const updateProduct = await productosService.updateProduct(productArguments)
 
     res.status(200).json(updateProduct)
 })
