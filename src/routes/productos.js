@@ -2,19 +2,19 @@ const express = require('express')
 const router = express.Router()
 const { productosService } = require('../services/productosService')
 
-router.get('/api/productos', async (_, res) => {
+router.get('', async (_, res) => {
     const allProducts = await productosService.getAllProducts()
     res.status(200).json(allProducts)
 })
 
-router.get('/api/productos/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
     const { id } = req.params
     const productId = await productosService.getProductById(+id)
     res.status(200).json(productId)
 })
 
 
-router.post('/api/productos', async (req, res) => {
+router.post('', async (req, res) => {
     const { title, price, thumbnail, stock, description } = req.body
     const newProduct = {
         title: title || null,
@@ -28,7 +28,7 @@ router.post('/api/productos', async (req, res) => {
 })
 
 
-router.put('/api/productos/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
     const { id } = req.params
     const { title, price, thumbnail, stock, description } = req.body
     const productArguments = {
@@ -43,7 +43,7 @@ router.put('/api/productos/:id', async (req, res) => {
     res.status(200).json(updateProduct)
 })
 
-router.delete('/api/productos/:id', (req, res) => {
+router.delete('/:id', (req, res) => {
     const { id } = req.params
     const deletedProduct = productosService.deleteProduct(+id)
     res.status(200).json(deletedProduct)

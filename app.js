@@ -10,13 +10,7 @@ const router = require('./src/routes/index.js')
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-
-
-app.get('/ping', (_, res) => {
-    res.status(200).json({ "ping": "pong" })
-})
-
-app.use('/', router)
+app.use('/api', router)
 
 // ERROR handlers
 app.use(errorHandler)
