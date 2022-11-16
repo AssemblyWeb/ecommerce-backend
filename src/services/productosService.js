@@ -54,11 +54,21 @@ class Contenedor {
     }
 
 
-    updateProduct = async ({ id, ...rest }) => {
-        await this.deleteProduct(id)
-        const addedProduct = await this.addProduct(rest)
+    updateProduct = async ({ id, title, price, thumbnail, stock, description }) => {
+        const getAllProducts = await this.getAllProducts()
+        const productFiltered = await this.getProductById(id)
+        const indexOfProduct = getAllProducts.findIndex(product => product.id === productFiltered[0].id)
+        getAllProducts[indexOfProduct] = {
+            id,
+            title: title != null ? title : productFiltered[0].title,
+            price: price != null ? price : productFiltered[0].price,
+            thumbnail: thumbnail != null ? thumbnail : productFiltered[0].thumbnail,
+            stock: stock != null ? stock : productFiltered[0].stock,
+            description: description != null ? description : productFiltered[0].description
+        }
+        await fs.promises.writeFile(`./src/services/productos.json`, JSON.stringify(getAllProducts))
 
-        return addedProduct
+        return getAllProducts[indexOfProduct]
     }
 
     deleteProduct = async (id) => {
