@@ -29,7 +29,7 @@ class Contenedor {
             const getAllProducts = await this.getAllProducts()
             const getProductsId = getAllProducts.map(product => product.id)
             const newProduct = {
-                id: 1 + Math.max(...getProductsId),
+                id: Math.max(...getProductsId) + 1,
                 timestamp: new Date().getTime(),
                 code: uuidv4(),
                 title, price, thumbnail, stock, description
@@ -53,7 +53,6 @@ class Contenedor {
         }
     }
 
-
     updateProduct = async ({ id, title, price, thumbnail, stock, description }) => {
         const getAllProducts = await this.getAllProducts()
         const productFiltered = await this.getProductById(id)
@@ -73,11 +72,9 @@ class Contenedor {
 
     deleteProduct = async (id) => {
         const getAllProducts = await this.getAllProducts()
-
         const productDeleted = this.getProductById(id)
         const productsFiltered = getAllProducts.filter(product => product.id != id)
         await fs.promises.writeFile(`./src/services/productos.json`, JSON.stringify(productsFiltered))
-
         return productDeleted
     }
 

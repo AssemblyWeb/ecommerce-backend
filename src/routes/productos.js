@@ -39,30 +39,14 @@ router.put('/api/productos/:id', async (req, res) => {
         stock: +stock || null,
         description: description || null
     }
-
     const updateProduct = await productosService.updateProduct(productArguments)
-
     res.status(200).json(updateProduct)
 })
 
 router.delete('/api/productos/:id', (req, res) => {
     const { id } = req.params
-
     const deletedProduct = productosService.deleteProduct(+id)
-
     res.status(200).json(deletedProduct)
 })
-// router.delete('/:id', async (req, res) => {
-//     try {
-//         const { id } = req.params
-
-//         const deleteProduct = await productosService.deleteProduct(+id)
-
-//         res.status(200).json(`El producto con id ${deleteProduct} fue eliminado`)
-
-//     } catch (error) {
-//         res.status(404).json("No se pudo borrar el id " + req.params.id)
-//     }
-// })
 
 module.exports = router

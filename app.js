@@ -11,12 +11,12 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 
-app.use('/', router)
 
 app.get('/ping', (_, res) => {
     res.status(200).json({ "ping": "pong" })
 })
 
+app.use('/', router)
 
 // ERROR handlers
 app.use(errorHandler)
