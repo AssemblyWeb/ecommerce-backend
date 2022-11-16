@@ -29,7 +29,7 @@ class Contenedor {
             const getAllProducts = await this.getAllProducts()
             const getProductsId = getAllProducts.map(product => product.id)
             const newProduct = {
-                id: Math.max(...getProductsId) + 1,
+                id: 1 + Math.max(...getProductsId),
                 timestamp: new Date().getTime(),
                 code: uuidv4(),
                 title, price, thumbnail, stock, description
@@ -83,7 +83,6 @@ class Contenedor {
 
 }
 
-//
 const productosService = new Contenedor(productsJson)
 
 module.exports = { productosService }
