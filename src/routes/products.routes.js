@@ -1,20 +1,22 @@
 const express = require('express')
 const router = express.Router()
 const { productosService } = require('../services/productosService')
+const logginMiddleware = require('../middlewares/logginMiddleware.js')
 
-router.get('/', async (_, res) => {
+
+router.get('/', logginMiddleware, async (_, res) => {
     const allProducts = await productosService.getAllProducts()
     res.status(200).json(allProducts)
 })
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', logginMiddleware, async (req, res) => {
     const { id } = req.params
     const productId = await productosService.getProductById(+id)
     res.status(200).json(productId)
 })
 
 
-router.post('/', async (req, res) => {
+router.post('/', logginMiddleware, async (req, res) => {
     const { title, price, thumbnail, stock, description } = req.body
     const newProduct = {
         title: title || null,
@@ -28,7 +30,7 @@ router.post('/', async (req, res) => {
 })
 
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', logginMiddleware, async (req, res) => {
     const { id } = req.params
     const { title, price, thumbnail, stock, description } = req.body
     const productArguments = {

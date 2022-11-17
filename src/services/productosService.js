@@ -1,6 +1,6 @@
 const fs = require('fs')
 const { v4: uuidv4 } = require('uuid')
-const productsJson = require("./productos.json")
+const productsJson = require("../../model/products/productos.json")
 
 class Contenedor {
     constructor(id, name, timestamp, code, description, price, thumbnail, stock) {
@@ -16,7 +16,7 @@ class Contenedor {
 
     getAllProducts = async () => {
         try {
-            const getAllProducts = await fs.promises.readFile(`./src/services/productos.json`, 'utf8')
+            const getAllProducts = await fs.promises.readFile(`./model/products/productos.json`, 'utf8')
             const parsedProducts = JSON.parse(getAllProducts)
             return parsedProducts
         } catch (error) {
@@ -35,7 +35,7 @@ class Contenedor {
                 title, price, thumbnail, stock, description
             }
             getAllProducts.push(newProduct)
-            await fs.promises.writeFile(`./src/services/productos.json`, JSON.stringify(getAllProducts))
+            await fs.promises.writeFile(`./model/products/productos.json`, JSON.stringify(getAllProducts))
 
             return newProduct
         } catch (error) {
@@ -54,28 +54,38 @@ class Contenedor {
     }
 
     updateProduct = async ({ id, title, price, thumbnail, stock, description }) => {
-        const getAllProducts = await this.getAllProducts()
-        const productFiltered = await this.getProductById(id)
-        const indexOfProduct = getAllProducts.findIndex(product => product.id === productFiltered[0].id)
-        getAllProducts[indexOfProduct] = {
-            id,
-            title: title != null ? title : productFiltered[0].title,
-            price: price != null ? price : productFiltered[0].price,
-            thumbnail: thumbnail != null ? thumbnail : productFiltered[0].thumbnail,
-            stock: stock != null ? stock : productFiltered[0].stock,
-            description: description != null ? description : productFiltered[0].description
-        }
-        await fs.promises.writeFile(`./src/services/productos.json`, JSON.stringify(getAllProducts))
+        try {
+            const getAllProducts = await this.getAllProducts()
+            const productFiltered = await this.getProductById(id)
+            const indexOfProduct = getAllProducts.findIndex(product => product.id === productFiltered[0].id)
+            getAllProducts[indexOfProduct] = {
+                id,
+                title: title != null ? title : productFiltered[0].title,
+                price: price != null ? price : productFiltered[0].price,
+                thumbnail: thumbnail != null ? thumbnail : productFiltered[0].thumbnail,
+                stock: stock != null ? stock : productFiltered[0].stock,
+                description: description != null ? description : productFiltered[0].description
+            }
+            await fs.promises.writeFile(`./model/products/productos.json`, JSON.stringify(getAllProducts))
 
-        return getAllProducts[indexOfProduct]
+            return getAllProducts[indexOfProduct]
+        } catch (error) {
+            console.error("No se pudo actualizar el producto:", id, error)
+        }
     }
 
     deleteProduct = async (id) => {
-        const getAllProducts = await this.getAllProducts()
-        const productDeleted = this.getProductById(id)
-        const productsFiltered = getAllProducts.filter(product => product.id != id)
-        await fs.promises.writeFile(`./src/services/productos.json`, JSON.stringify(productsFiltered))
-        return productDeleted
+        try {
+            const getAllProducts = await this.getAllProducts()
+            const productDeleted = this.getProductById(id)
+            const productsFiltered = getAllProducts.filter(product => product.id != id)
+
+            await fs.promises.writeFile(`./model/products/productos.json`, JSON.stringify(productsFiltered))
+
+            return productDeleted
+        } catch (error) {
+            console.error("No se pudo borrar el producto:", id, error)
+        }
     }
 
 }
