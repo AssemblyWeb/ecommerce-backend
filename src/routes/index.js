@@ -2,13 +2,13 @@
 const router = require('express').Router()
 
 //requiero las rutas de carritos
-const products = require('./productos.js')
-const carrito = require('./carrito.js')
+const productsRoutes = require('./products.routes.js')
+const cartRoutes = require('./cart.routes.js')
 
 //defino que las rutas de products contengan "/"
-router.use('/productos', products)
+router.use('/productos', productsRoutes)
 
-// router.get('/carrito', "hola")
+router.use('/carrito', cartRoutes)
 
 
 router.get('*', (req, res) => { logger.warn(`Ruta ${req.url} con metodo ${req.method} no encontrada en el servidor.`) })

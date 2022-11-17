@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "timestamp": 1668657048405,
+    "products": [
+      {
+        "id": 1,
+        "timestamp": 1668636990365,
+        "code": "0e4a9012-fc80-4348-b4fa-f126c9469e22",
+        "title": "aeroplano",
+        "price": 99,
+        "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/plane-paper-toy-science-school-1024.png",
+        "stock": 5,
+        "description": "Lorem ipsum dolor sit amet"
+      }
+    ]
+  },
+  { "id": 2, "timestamp": 1668657518405, "products": [] },
+  { "id": 3, "timestamp": 1668657520784, "products": [] }
+]

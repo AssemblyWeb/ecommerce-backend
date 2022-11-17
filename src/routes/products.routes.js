@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const { productosService } = require('../services/productosService')
 
-router.get('', async (_, res) => {
+router.get('/', async (_, res) => {
     const allProducts = await productosService.getAllProducts()
     res.status(200).json(allProducts)
 })
@@ -14,7 +14,7 @@ router.get('/:id', async (req, res) => {
 })
 
 
-router.post('', async (req, res) => {
+router.post('/', async (req, res) => {
     const { title, price, thumbnail, stock, description } = req.body
     const newProduct = {
         title: title || null,
