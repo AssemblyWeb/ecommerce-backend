@@ -11,6 +11,8 @@ router.use('/productos', productsRoutes)
 router.use('/carrito', cartRoutes)
 
 
-router.get('*', (req, res) => { logger.warn(`Ruta ${req.url} con metodo ${req.method} no encontrada en el servidor.`) })
+router.get('/*', (_, res) => {
+    res.status(404).json({ "status": 404 })
+})
 
 module.exports = router
