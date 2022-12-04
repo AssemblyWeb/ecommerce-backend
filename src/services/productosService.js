@@ -47,7 +47,7 @@ class Contenedor {
         try {
             const getAllProducts = await this.getAllProducts()
             const getProductById = getAllProducts.find(product => product.id === id)
-            return getProductById
+            return [getProductById]
         } catch (error) {
             console.error("No se pudo obtener el id", id, error)
         }
