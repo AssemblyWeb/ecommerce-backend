@@ -12,6 +12,11 @@ router.get('/', loginMiddleware, async (_, res) => {
 router.get('/:id', loginMiddleware, async (req, res) => {
     const { id } = req.params
     const productId = await productosService.getProductById(+id)
+
+    if (!productId[0]) {
+        res.status(500).json({ status: 500, data: null, message: `id ${id} not found` })
+        return
+    }
     res.status(200).json(productId)
 })
 
