@@ -10,6 +10,11 @@ const PORT = process.env.PORT || 8080
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
+//conect mongo
+if (process.env.DATABASE === 'MONGO') {
+
+}
+
 //routes
 app.use('/api', router)
 
