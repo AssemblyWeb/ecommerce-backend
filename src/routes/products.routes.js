@@ -1,59 +1,17 @@
 const express = require('express')
 const router = express.Router()
-const { productosService } = require('../services/productosService')
 const loginMiddleware = require('../middlewares/loginMiddleware.js')
+const { getAllProducts, getProductById, addProduct, updateProduct, deleteProduct } = require('../controllers/productsController.js')
 
 
-router.get('/', loginMiddleware, async (_, res) => {
-    const allProducts = await productosService.getAllProducts()
-    res.status(200).json(allProducts)
-})
+router.get('/', getAllProducts)
 
-router.get('/:id', loginMiddleware, async (req, res) => {
-    const { id } = req.params
-    const productId = await productosService.getProductById(+id)
+router.get('/:id', loginMiddleware, getProductById)
 
-    if (!productId[0]) {
-        res.status(500).json({ status: 500, data: null, message: `id ${id} not found` })
-        return
-    }
-    res.status(200).json(productId)
-})
+router.post('/', loginMiddleware, addProduct)
 
+router.put('/:id', loginMiddleware, updateProduct)
 
-router.post('/', loginMiddleware, async (req, res) => {
-    const { title, price, thumbnail, stock, description } = req.body
-    const newProduct = {
-        title: title || null,
-        price: +price || null,
-        thumbnail: thumbnail || null,
-        stock: +stock || null,
-        description: description || null
-    }
-    const addedProduct = await productosService.addProduct(newProduct)
-    res.status(200).json(addedProduct)
-})
-
-
-router.put('/:id', loginMiddleware, async (req, res) => {
-    const { id } = req.params
-    const { title, price, thumbnail, stock, description } = req.body
-    const productArguments = {
-        id: +id,
-        title: title || null,
-        price: +price || null,
-        thumbnail: thumbnail || null,
-        stock: +stock || null,
-        description: description || null
-    }
-    const updateProduct = await productosService.updateProduct(productArguments)
-    res.status(200).json(updateProduct)
-})
-
-router.delete('/:id', (req, res) => {
-    const { id } = req.params
-    const deletedProduct = productosService.deleteProduct(+id)
-    res.status(200).json(deletedProduct)
-})
+router.delete('/:id', deleteProduct)
 
 module.exports = router

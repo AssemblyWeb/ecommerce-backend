@@ -12,7 +12,7 @@ router.use('/carrito', cartRoutes)
 
 
 router.get('/*', (_, res) => {
-    res.status(404).json({ "status": 404 })
+    res.status(404).json({ status: 404, message: `Not found` })
 })
 
 module.exports = router

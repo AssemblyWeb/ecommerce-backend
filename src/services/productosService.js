@@ -16,7 +16,7 @@ class Contenedor {
 
     getAllProducts = async () => {
         try {
-            const getAllProducts = await fs.promises.readFile(`./model/products/productos.json`, 'utf8')
+            const getAllProducts = await fs.promises.readFile(`./model/products/productos.json`, 'utf8') || []
             const parsedProducts = JSON.parse(getAllProducts)
             return parsedProducts
         } catch (error) {
