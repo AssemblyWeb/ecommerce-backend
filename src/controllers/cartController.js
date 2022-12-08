@@ -1,4 +1,4 @@
-const { cartService } = require('../services/cartService.js')
+import { cartService } from '../services/cartService.js'
 
 const addNewCart = async (_, res, next) => {
     try {
@@ -32,7 +32,7 @@ const getCartProducts = async (req, res, next) => {
 const addNewProduct = async (req, res, next) => {
     try {
         const { cartId } = req.params
-        const newProduct = { id, title, price, timestamp, code, thumbnail, stock, description } = req.body
+        const newProduct = { id, name, price, timestamp, code, thumbnail, stock, description } = req.body
         const addNewProduct = await cartService.addNewProduct(+cartId, newProduct)
         res.status(201).json({ status: 201, success: true, data: addNewProduct })
     } catch (error) {
@@ -50,4 +50,4 @@ const deleteProduct = async (req, res, next) => {
     }
 }
 
-module.exports = { addNewCart, deleteCart, getCartProducts, addNewProduct, deleteProduct }
+export { addNewCart, deleteCart, getCartProducts, addNewProduct, deleteProduct }

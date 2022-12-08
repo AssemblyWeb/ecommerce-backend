@@ -4,4 +4,4 @@ const loginMiddleware = (req, _, next) => {
     return next()
 }
 
-module.exports = loginMiddleware
+export default loginMiddleware

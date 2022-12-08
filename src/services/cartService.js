@@ -1,5 +1,5 @@
-const fs = require('fs')
-const usersJson = require("../../model/carts/carts.json")
+import fs from 'fs'
+import usersJson from "../../model/carts/carts.json"
 
 class Cart {
     constructor(id, timestamp, products) {
@@ -70,5 +70,5 @@ class Cart {
 
 const cartService = new Cart(usersJson)
 
-module.exports = { cartService }
+export { cartService }
 

@@ -1,12 +1,12 @@
-const fs = require('fs')
-const { v4: uuidv4 } = require('uuid')
-const productsJson = require("../../model/products/productos.json")
+import fs from 'fs'
+import { v4 as uuidv4 } from 'uuid'
+// import productsJson from "../../model/products/productos.json" 
+
+import ProductContainer from '../container/index.js'
 
 class Contenedor {
-    constructor(id, name, timestamp, code, description, price, thumbnail, stock) {
+    constructor(id, name, description, price, thumbnail, stock) {
         this.id = id
-        this.timestamp = timestamp
-        this.code = code
         this.name = name
         this.description = description
         this.price = price
@@ -16,7 +16,8 @@ class Contenedor {
 
     getAllProducts = async () => {
         try {
-            const getAllProducts = await fs.promises.readFile(`./model/products/productos.json`, 'utf8') || []
+            // const getAllProducts = await fs.promises.readFile(`./model/products/productos.json`, 'utf8') || []
+            const getAllProducts = await ProductContainer.getAll()
             const parsedProducts = JSON.parse(getAllProducts)
             return parsedProducts
         } catch (error) {
@@ -24,7 +25,7 @@ class Contenedor {
         }
     }
 
-    addProduct = async ({ title, price, thumbnail, stock, description }) => {
+    addProduct = async ({ name, price, thumbnail, stock, description }) => {
         try {
             const getAllProducts = await this.getAllProducts()
             const getProductsId = getAllProducts.map(product => product.id)
@@ -32,7 +33,7 @@ class Contenedor {
                 id: Math.max(...getProductsId) + 1,
                 timestamp: new Date().getTime(),
                 code: uuidv4(),
-                title, price, thumbnail, stock, description
+                name, price, thumbnail, stock, description
             }
             getAllProducts.push(newProduct)
             await fs.promises.writeFile(`./model/products/productos.json`, JSON.stringify(getAllProducts))
@@ -54,14 +55,14 @@ class Contenedor {
         }
     }
 
-    updateProduct = async ({ id, title, price, thumbnail, stock, description }) => {
+    updateProduct = async ({ id, name, price, thumbnail, stock, description }) => {
         try {
             const getAllProducts = await this.getAllProducts()
             const productFiltered = await this.getProductById(id)
             const indexOfProduct = getAllProducts.findIndex(product => product.id === productFiltered[0].id)
             getAllProducts[indexOfProduct] = {
                 id,
-                title: title != null ? title : productFiltered[0].title,
+                name: name != null ? name : productFiltered[0].name,
                 price: price != null ? price : productFiltered[0].price,
                 thumbnail: thumbnail != null ? thumbnail : productFiltered[0].thumbnail,
                 stock: stock != null ? stock : productFiltered[0].stock,
@@ -93,4 +94,4 @@ class Contenedor {
 
 const productosService = new Contenedor(productsJson)
 
-module.exports = { productosService }
+export default productosService 

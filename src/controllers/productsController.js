@@ -1,8 +1,10 @@
-const { productosService } = require('../services/productosService')
+import productosService from '../services/productosService.js'
+
 
 const getAllProducts = async (_, res, next) => {
     try {
-        const allProducts = await productosService.getAllProducts()
+        console.log("what is", await productosService())
+        const allProducts = await productosService()
         res.status(201).json({ status: 201, success: true, data: allProducts })
     } catch (error) {
         next(error)
@@ -12,7 +14,7 @@ const getAllProducts = async (_, res, next) => {
 const getProductById = async (req, res, next) => {
     try {
         const { id } = req.params
-        const productId = await productosService.getProductById(+id)
+        const productId = await productService.getProductById(+id)
 
         if (!productId[0]) {
             res.status(400).json({ status: 400, success: false, data: null, message: `id ${id} not found` })
@@ -27,15 +29,15 @@ const getProductById = async (req, res, next) => {
 
 const addProduct = async (req, res, next) => {
     try {
-        const { title, price, thumbnail, stock, description } = req.body
+        const { name, price, thumbnail, stock, description } = req.body
         const newProduct = {
-            title: title || null,
+            name: name || null,
             price: +price || null,
             thumbnail: thumbnail || null,
             stock: +stock || null,
             description: description || null
         }
-        const addedProduct = await productosService.addProduct(newProduct)
+        const addedProduct = await productService.addProduct(newProduct)
 
         res.status(201).json({ status: 201, sucess: true, data: addedProduct })
     } catch (error) {
@@ -46,16 +48,16 @@ const addProduct = async (req, res, next) => {
 const updateProduct = async (req, res, next) => {
     try {
         const { id } = req.params
-        const { title, price, thumbnail, stock, description } = req.body
+        const { name, price, thumbnail, stock, description } = req.body
         const productArguments = {
             id: +id,
-            title: title || null,
+            name: name || null,
             price: +price || null,
             thumbnail: thumbnail || null,
             stock: +stock || null,
             description: description || null
         }
-        const updateProduct = await productosService.updateProduct(productArguments)
+        const updateProduct = await productService.updateProduct(productArguments)
         if (!updateProduct) {
             res.status(400).json({ status: 400, sucess: false, data: null, message: `id ${id} not found` })
             return
@@ -69,7 +71,7 @@ const updateProduct = async (req, res, next) => {
 const deleteProduct = async (req, res, next) => {
     try {
         const { id } = req.params
-        const deletedProduct = await productosService.deleteProduct(+id)
+        const deletedProduct = await productService.deleteProduct(+id)
         console.log(deletedProduct)
         if (!deletedProduct) {
             res.status(400).json({ status: 400, data: null, message: `id ${id} not found` })
@@ -81,4 +83,4 @@ const deleteProduct = async (req, res, next) => {
     }
 }
 
-module.exports = { getAllProducts, getProductById, addProduct, updateProduct, deleteProduct }
+export { getAllProducts, getProductById, addProduct, updateProduct, deleteProduct }
