@@ -3,6 +3,7 @@ import fs from 'fs'
 
 import ProductService from '../container/index.js'
 
+const products = await ProductService()
 class Contenedor {
     constructor() { }
 
@@ -11,7 +12,6 @@ class Contenedor {
             // const getAllProducts = await fs.promises.readFile(`./model/products/productos.json`, 'utf8') || []
             // const parsedProducts = JSON.parse(getAllProducts)
             // console.log(await ProductService.getAll())
-            const products = await ProductService()
             const getAllProducts = products.getAll()
             return getAllProducts
         } catch (error) {
@@ -27,8 +27,9 @@ class Contenedor {
                 id: Math.max(...getProductsId) + 1,
                 name, price, thumbnail, stock, description
             }
-            getAllProducts.push(newProduct)
-            await fs.promises.writeFile(`./model/products/productos.json`, JSON.stringify(getAllProducts))
+            await products.create(newProduct)
+            // getAllProducts.push(newProduct)
+            // await fs.promises.writeFile(`./model/products/productos.json`, JSON.stringify(getAllProducts))
 
             return newProduct
         } catch (error) {

@@ -33,7 +33,6 @@ const getDataCore = async () => {
 const ProductService = async () => {
     const ProductContainer = await getDataCore()
     const ProductClass = await new ProductContainer()
-    // console.log(await ProductClass.getAll())
     return ProductClass
 }
 

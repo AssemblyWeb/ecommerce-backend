@@ -15,8 +15,9 @@ class ProductContainer {
         return this.db
     }
 
-    create() {
-
+    create(newEntry) {
+        this.db.push(newEntry)
+        console.log(newEntry)
     }
     // async update()
     // async getById(id)
