@@ -32,9 +32,9 @@ const getDataCore = async () => {
 
 const ProductService = async () => {
     const ProductContainer = await getDataCore()
-    // const ProductClass = new ProductContainer()
-    // console.log(ProductClass.getAll())
-    return ProductContainer
+    const ProductClass = await new ProductContainer()
+    // console.log(await ProductClass.getAll())
+    return ProductClass
 }
 
 export default ProductService

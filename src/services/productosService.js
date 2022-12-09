@@ -1,25 +1,19 @@
 import fs from 'fs'
-import { v4 as uuidv4 } from 'uuid'
-// import productsJson from "../../model/products/productos.json" 
+// import * as productsJson from "../../model/products/productos.json"
 
-import ProductContainer from '../container/index.js'
+import ProductService from '../container/index.js'
 
 class Contenedor {
-    constructor(id, name, description, price, thumbnail, stock) {
-        this.id = id
-        this.name = name
-        this.description = description
-        this.price = price
-        this.thumbnail = thumbnail
-        this.stock = stock
-    }
+    constructor() { }
 
     getAllProducts = async () => {
         try {
             // const getAllProducts = await fs.promises.readFile(`./model/products/productos.json`, 'utf8') || []
-            const getAllProducts = await ProductContainer.getAll()
-            const parsedProducts = JSON.parse(getAllProducts)
-            return parsedProducts
+            // const parsedProducts = JSON.parse(getAllProducts)
+            // console.log(await ProductService.getAll())
+            const products = await ProductService()
+            const getAllProducts = products.getAll()
+            return getAllProducts
         } catch (error) {
             console.error("No se pudieron traer todos los productos:", error)
         }
@@ -31,8 +25,6 @@ class Contenedor {
             const getProductsId = getAllProducts.map(product => product.id)
             const newProduct = {
                 id: Math.max(...getProductsId) + 1,
-                timestamp: new Date().getTime(),
-                code: uuidv4(),
                 name, price, thumbnail, stock, description
             }
             getAllProducts.push(newProduct)
@@ -91,7 +83,6 @@ class Contenedor {
     }
 
 }
-
-const productosService = new Contenedor(productsJson)
+const productosService = new Contenedor()
 
 export default productosService 

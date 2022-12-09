@@ -1,10 +1,8 @@
 import productosService from '../services/productosService.js'
 
-
 const getAllProducts = async (_, res, next) => {
     try {
-        console.log("what is", await productosService())
-        const allProducts = await productosService()
+        const allProducts = await productosService.getAllProducts()
         res.status(201).json({ status: 201, success: true, data: allProducts })
     } catch (error) {
         next(error)
@@ -37,7 +35,7 @@ const addProduct = async (req, res, next) => {
             stock: +stock || null,
             description: description || null
         }
-        const addedProduct = await productService.addProduct(newProduct)
+        const addedProduct = await productosService.addProduct(newProduct)
 
         res.status(201).json({ status: 201, sucess: true, data: addedProduct })
     } catch (error) {

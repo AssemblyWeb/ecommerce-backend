@@ -1,11 +1,23 @@
 class ProductContainer {
     constructor() {
+        this.db = [{
+            "id": 1,
+            "name": "remera",
+            "price": 200,
+            "thumbnail": "https://i.picsum.photos/id/329/200/300.jpg",
+            "stock": 5,
+            "description": "lorem"
+        }]
+
     }
 
-    async getAll() {
-        return await [{ getAll: "memory" }]
+    getAll() {
+        return this.db
     }
-    // async create()
+
+    create() {
+
+    }
     // async update()
     // async getById(id)
     // async delete()
