@@ -9,9 +9,6 @@ class Contenedor {
 
     getAllProducts = async () => {
         try {
-            // const getAllProducts = await fs.promises.readFile(`./model/products/productos.json`, 'utf8') || []
-            // const parsedProducts = JSON.parse(getAllProducts)
-            // console.log(await ProductService.getAll())
             const getAllProducts = products.getAll()
             return getAllProducts
         } catch (error) {
@@ -27,11 +24,9 @@ class Contenedor {
                 id: Math.max(...getProductsId) + 1,
                 name, price, thumbnail, stock, description
             }
-            await products.create(newProduct)
-            // getAllProducts.push(newProduct)
-            // await fs.promises.writeFile(`./model/products/productos.json`, JSON.stringify(getAllProducts))
+            const newEntry = await products.create(newProduct)
 
-            return newProduct
+            return newEntry
         } catch (error) {
             console.error("No se pudo agregar un nuevo producto", error)
         }
