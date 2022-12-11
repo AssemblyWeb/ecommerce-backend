@@ -19,8 +19,10 @@ class ProductContainer {
         this.db.push(newEntry)
         return newEntry
     }
+    async getById(id) {
+        return this.db.find(id => id)
+    }
     // async update()
-    // async getById(id)
     // async delete()
 
 

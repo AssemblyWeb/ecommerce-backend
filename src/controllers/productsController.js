@@ -12,7 +12,7 @@ const getAllProducts = async (_, res, next) => {
 const getProductById = async (req, res, next) => {
     try {
         const { id } = req.params
-        const productId = await productService.getProductById(+id)
+        const productId = await productosService.getProductById(+id)
 
         if (!productId[0]) {
             res.status(400).json({ status: 400, success: false, data: null, message: `id ${id} not found` })
