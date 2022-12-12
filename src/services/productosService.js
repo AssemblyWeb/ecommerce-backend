@@ -1,4 +1,4 @@
-import fs from 'fs'
+// import fs from 'fs'
 // import * as productsJson from "../../model/products/productos.json"
 
 import ProductService from '../container/index.js'
@@ -34,31 +34,30 @@ class Contenedor {
 
     getProductById = async id => {
         try {
-            const getAllProducts = await this.getAllProducts()
-            const getProductById = getAllProducts.find(product => product.id === id)
-
-            return [getProductById]
+            return await products.getById(id)
         } catch (error) {
             console.error("No se pudo obtener el id", id, error)
         }
     }
 
-    updateProduct = async ({ id, name, price, thumbnail, stock, description }) => {
+    updateProduct = async (productArguments) => {
         try {
-            const getAllProducts = await this.getAllProducts()
-            const productFiltered = await this.getProductById(id)
-            const indexOfProduct = getAllProducts.findIndex(product => product.id === productFiltered[0].id)
-            getAllProducts[indexOfProduct] = {
-                id,
-                name: name != null ? name : productFiltered[0].name,
-                price: price != null ? price : productFiltered[0].price,
-                thumbnail: thumbnail != null ? thumbnail : productFiltered[0].thumbnail,
-                stock: stock != null ? stock : productFiltered[0].stock,
-                description: description != null ? description : productFiltered[0].description
-            }
-            await fs.promises.writeFile(`./model/products/productos.json`, JSON.stringify(getAllProducts))
+            return await products.update(productArguments)
 
-            return getAllProducts[indexOfProduct]
+            // const getAllProducts = await this.getAllProducts()
+            // const productFiltered = await this.getProductById(id)
+            // const indexOfProduct = getAllProducts.findIndex(product => product.id === productFiltered[0].id)
+            // getAllProducts[indexOfProduct] = {
+            //     id,
+            //     name: name != null ? name : productFiltered[0].name,
+            //     price: price != null ? price : productFiltered[0].price,
+            //     thumbnail: thumbnail != null ? thumbnail : productFiltered[0].thumbnail,
+            //     stock: stock != null ? stock : productFiltered[0].stock,
+            //     description: description != null ? description : productFiltered[0].description
+            // }
+            // await fs.promises.writeFile(`./model/products/productos.json`, JSON.stringify(getAllProducts))
+
+            // return getAllProducts[indexOfProduct]
         } catch (error) {
             console.error("No se pudo actualizar el producto:", id, error)
         }
@@ -66,13 +65,7 @@ class Contenedor {
 
     deleteProduct = async (id) => {
         try {
-            const getAllProducts = await this.getAllProducts()
-            const productDeleted = this.getProductById(id)
-            const productsFiltered = getAllProducts.filter(product => product.id != id)
-
-            await fs.promises.writeFile(`./model/products/productos.json`, JSON.stringify(productsFiltered))
-
-            return productDeleted
+            return await products.delete(id)
         } catch (error) {
             console.error("No se pudo borrar el producto:", id, error)
         }

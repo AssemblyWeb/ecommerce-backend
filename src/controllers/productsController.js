@@ -13,8 +13,7 @@ const getProductById = async (req, res, next) => {
     try {
         const { id } = req.params
         const productId = await productosService.getProductById(+id)
-
-        if (!productId[0]) {
+        if (!productId) {
             res.status(400).json({ status: 400, success: false, data: null, message: `id ${id} not found` })
             return
         }
@@ -55,7 +54,7 @@ const updateProduct = async (req, res, next) => {
             stock: +stock || null,
             description: description || null
         }
-        const updateProduct = await productService.updateProduct(productArguments)
+        const updateProduct = await productosService.updateProduct(productArguments)
         if (!updateProduct) {
             res.status(400).json({ status: 400, sucess: false, data: null, message: `id ${id} not found` })
             return
@@ -69,13 +68,12 @@ const updateProduct = async (req, res, next) => {
 const deleteProduct = async (req, res, next) => {
     try {
         const { id } = req.params
-        const deletedProduct = await productService.deleteProduct(+id)
-        console.log(deletedProduct)
-        if (!deletedProduct) {
-            res.status(400).json({ status: 400, data: null, message: `id ${id} not found` })
+        const deletedProductId = await productosService.deleteProduct(+id)
+        if (!deletedProductId) {
+            res.status(400).json({ status: 400, sucess: false, message: `id ${id} not found` })
             return
         }
-        res.status(200).json(deletedProduct)
+        res.status(200).json({ status: 201, sucess: true, id: deletedProductId, message: `Product id ${deletedProductId} was deleted` })
     } catch (error) {
         next(error)
     }
