@@ -1,18 +1,28 @@
 import mongoose from 'mongoose'
-
 class ContainerMongo {
     constructor(collection, schema) {
         this.model = mongoose.model(collection, schema)
     }
 
     async getAll() {
-        const getAll = await this.model.find()
-        return getAll
+        return await this.model.find()
     }
-    // async create()
-    // async update()
-    // async getById(id)
-    // async delete()
+    async create(entry) {
+        return await this.model.create(entry)
+    }
+    async getById(id) {
+        const getById = await this.model.findById(id)
+        if (!getById) throw new Error("Id not found")
+        return getById
+    }
+    async delete(id) {
+        return this.model.deleteById(id)
+    }
+    async update({ id, ...rest }) {
+        const update = await this.model.findByIdAndUpdate({ _id: id }, { ...rest }, { new: true })
+        if (!update) throw new Error("Product not updated")
+        return update
+    }
 
 
 }

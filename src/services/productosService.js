@@ -1,6 +1,3 @@
-// import fs from 'fs'
-// import * as productsJson from "../../model/products/productos.json"
-
 import ProductService from '../container/index.js'
 
 const products = await ProductService()
@@ -9,7 +6,7 @@ class Contenedor {
 
     getAllProducts = async () => {
         try {
-            const getAllProducts = products.getAll()
+            const getAllProducts = await products.getAll()
             return getAllProducts
         } catch (error) {
             console.error("No se pudieron traer todos los productos:", error)
@@ -44,17 +41,7 @@ class Contenedor {
         try {
             return await products.update(productArguments)
 
-            // const getAllProducts = await this.getAllProducts()
-            // const productFiltered = await this.getProductById(id)
-            // const indexOfProduct = getAllProducts.findIndex(product => product.id === productFiltered[0].id)
-            // getAllProducts[indexOfProduct] = {
-            //     id,
-            //     name: name != null ? name : productFiltered[0].name,
-            //     price: price != null ? price : productFiltered[0].price,
-            //     thumbnail: thumbnail != null ? thumbnail : productFiltered[0].thumbnail,
-            //     stock: stock != null ? stock : productFiltered[0].stock,
-            //     description: description != null ? description : productFiltered[0].description
-            // }
+
             // await fs.promises.writeFile(`./model/products/productos.json`, JSON.stringify(getAllProducts))
 
             // return getAllProducts[indexOfProduct]

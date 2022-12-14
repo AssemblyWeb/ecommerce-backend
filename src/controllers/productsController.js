@@ -12,7 +12,7 @@ const getAllProducts = async (_, res, next) => {
 const getProductById = async (req, res, next) => {
     try {
         const { id } = req.params
-        const productId = await productosService.getProductById(+id)
+        const productId = await productosService.getProductById(id)
         if (!productId) {
             res.status(400).json({ status: 400, success: false, data: null, message: `id ${id} not found` })
             return
@@ -47,7 +47,7 @@ const updateProduct = async (req, res, next) => {
         const { id } = req.params
         const { name, price, thumbnail, stock, description } = req.body
         const productArguments = {
-            id: +id,
+            id,
             name: name || null,
             price: +price || null,
             thumbnail: thumbnail || null,
@@ -68,7 +68,7 @@ const updateProduct = async (req, res, next) => {
 const deleteProduct = async (req, res, next) => {
     try {
         const { id } = req.params
-        const deletedProductId = await productosService.deleteProduct(+id)
+        const deletedProductId = await productosService.deleteProduct(id)
         if (!deletedProductId) {
             res.status(400).json({ status: 400, sucess: false, message: `id ${id} not found` })
             return

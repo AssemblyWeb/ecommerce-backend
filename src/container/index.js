@@ -12,7 +12,9 @@ const getDataCore = async () => {
         return ModuleSource.default
     }
     if (dataCore === "MONGO") {
-        const ModuleSource = await import('./ContainerMongo.js')
+        const ModuleSource = await import('./../DAO/products/ProductsDaoMongo.js')
+        // console.log(ModuleSource)
+        // const ModuleSource = await import('./ContainerMongo.js')
         return ModuleSource.default
     }
     if (dataCore === "FIREBASE") {
