@@ -8,7 +8,6 @@ class ProductContainer {
             "stock": 5,
             "description": "lorem"
         }]
-
     }
 
     getAll() {
@@ -19,9 +18,11 @@ class ProductContainer {
         this.getAll().push(newEntry)
         return newEntry
     }
+
     getById(id) {
         return this.getAll().find(product => product.id === id)
     }
+
     delete(id) {
         if (!this.getById(id)) return null
 
@@ -29,6 +30,7 @@ class ProductContainer {
         this.db = deleted
         return id
     }
+
     update({ id, name, price, thumbnail, stock, description }) {
         const entryFiltered = this.getById(id)
         if (!entryFiltered) return null
@@ -47,6 +49,6 @@ class ProductContainer {
         return this.db[indexOfProduct]
     }
 
-
 }
+
 export default ProductContainer

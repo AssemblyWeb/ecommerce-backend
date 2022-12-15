@@ -8,7 +8,7 @@ const getDataCore = async () => {
         return ModuleSource.default
     }
     if (dataCore === "FS") {
-        const ModuleSource = await import('./ContainerFs.js')
+        const ModuleSource = await import('./../DAO/products/ProductsDaoFs.js')
         return ModuleSource.default
     }
     if (dataCore === "MONGO") {

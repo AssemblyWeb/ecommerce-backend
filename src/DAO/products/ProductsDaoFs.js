@@ -1,1 +1,9 @@
-//no recibe nada por constructor
+import ContainerFS from '../../container/ContainerFS.js'
+
+class ProductFSDao extends ContainerFS {
+    constructor() {
+        super("productos")
+    }
+}
+
+export default ProductFSDao

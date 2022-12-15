@@ -24,7 +24,6 @@ class ContainerMongo {
         return update
     }
 
-
 }
 
 export default ContainerMongo

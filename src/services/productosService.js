@@ -40,11 +40,6 @@ class Contenedor {
     updateProduct = async (productArguments) => {
         try {
             return await products.update(productArguments)
-
-
-            // await fs.promises.writeFile(`./model/products/productos.json`, JSON.stringify(getAllProducts))
-
-            // return getAllProducts[indexOfProduct]
         } catch (error) {
             console.error("No se pudo actualizar el producto:", id, error)
         }
