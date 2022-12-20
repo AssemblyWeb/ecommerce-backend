@@ -3,7 +3,7 @@ import { cartService } from '../services/cartService.js'
 const addNewCart = async (_, res, next) => {
     try {
         const addNewCart = await cartService.addNewCart()
-        res.status(201).json({ status: 201, success: true, data: addNewCart })
+        res.status(200).json({ status: 200, success: true, data: addNewCart })
     } catch (error) {
         next(error)
     }

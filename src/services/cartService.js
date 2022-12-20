@@ -1,15 +1,12 @@
 import fs from 'fs'
 import usersJson from "../../model/carts/carts.json"
 
-class Cart {
-    constructor(id, timestamp, products) {
-        this.id = id
-        this.timestamp = timestamp
-        this.products = products
-    }
+class Service {
+    constructor() { }
+
     getAllCarts = async () => {
-        const getAllCarts = await fs.promises.readFile(`./model/carts/carts.json`, 'utf8')
-        const parsedCarts = JSON.parse(getAllCarts)
+        // const getAllCarts = await fs.promises.readFile(`./model/carts/carts.json`, 'utf8')
+        // const parsedCarts = JSON.parse(getAllCarts)
         return parsedCarts
     }
     addNewCart = async () => {
@@ -68,7 +65,7 @@ class Cart {
 
 }
 
-const cartService = new Cart(usersJson)
+const cartService = new Service()
 
 export { cartService }
 

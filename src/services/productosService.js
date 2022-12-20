@@ -1,7 +1,7 @@
 import ProductService from '../container/index.js'
 
 const products = await ProductService()
-class Contenedor {
+class Service {
     constructor() { }
 
     getAllProducts = async () => {
@@ -54,6 +54,6 @@ class Contenedor {
     }
 
 }
-const productosService = new Contenedor()
+const productosService = new Service()
 
 export default productosService 
