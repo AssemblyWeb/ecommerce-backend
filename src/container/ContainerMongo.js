@@ -16,7 +16,7 @@ class ContainerMongo {
         return getById
     }
     async delete(id) {
-        return this.model.deleteById(id)
+        return await this.model.findByIdAndDelete(id)
     }
     async update({ id, ...rest }) {
         const update = await this.model.findByIdAndUpdate({ _id: id }, { ...rest }, { new: true })

@@ -4,7 +4,7 @@ import cartSchema from '../../model/cart.Schema.js'
 
 class cartsDaoMongo extends ContainerMongo {
     constructor() {
-        super("carts", productSchema)
+        super("carts", cartSchema)
     }
 }
 

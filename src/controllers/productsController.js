@@ -18,7 +18,7 @@ const getProductById = async (req, res, next) => {
             return
         }
 
-        res.status(200).json({ status: 200, sucess: true, data: productId })
+        res.status(200).json({ status: 200, success: true, data: productId })
     } catch (error) {
         next(error)
     }
@@ -36,7 +36,7 @@ const addProduct = async (req, res, next) => {
         }
         const addedProduct = await productosService.addProduct(newProduct)
 
-        res.status(201).json({ status: 201, sucess: true, data: addedProduct })
+        res.status(201).json({ status: 201, success: true, data: addedProduct })
     } catch (error) {
         next(error)
     }
@@ -56,10 +56,10 @@ const updateProduct = async (req, res, next) => {
         }
         const updateProduct = await productosService.updateProduct(productArguments)
         if (!updateProduct) {
-            res.status(400).json({ status: 400, sucess: false, data: null, message: `id ${id} not found` })
+            res.status(400).json({ status: 400, success: false, data: null, message: `id ${id} not found` })
             return
         }
-        res.status(200).json({ status: 200, sucess: true, data: updateProduct })
+        res.status(200).json({ status: 200, success: true, data: updateProduct })
     } catch (error) {
         next(error)
     }
@@ -70,10 +70,10 @@ const deleteProduct = async (req, res, next) => {
         const { id } = req.params
         const deletedProductId = await productosService.deleteProduct(id)
         if (!deletedProductId) {
-            res.status(400).json({ status: 400, sucess: false, message: `id ${id} not found` })
+            res.status(400).json({ status: 400, success: false, message: `id ${id} not found` })
             return
         }
-        res.status(204).json({ status: 204, sucess: true, id: deletedProductId, message: `Product id ${deletedProductId} was deleted` })
+        res.status(204).json({ status: 204, success: true, id: deletedProductId, message: `Product id ${deletedProductId} was deleted` })
     } catch (error) {
         next(error)
     }

@@ -1,4 +1,4 @@
-import ProductService from '../container/index.js'
+import ProductService from '../DAO/products/index.js'
 
 const products = await ProductService()
 class Service {
@@ -13,16 +13,9 @@ class Service {
         }
     }
 
-    addProduct = async ({ name, price, thumbnail, stock, description }) => {
+    addProduct = async (newProduct) => {
         try {
-            const getAllProducts = await this.getAllProducts()
-            const getProductsId = getAllProducts.map(product => product.id)
-            const newProduct = {
-                id: Math.max(...getProductsId) + 1,
-                name, price, thumbnail, stock, description
-            }
             const newEntry = await products.create(newProduct)
-
             return newEntry
         } catch (error) {
             console.error("No se pudo agregar un nuevo producto", error)

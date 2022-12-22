@@ -2,7 +2,14 @@ import mongoose from 'mongoose'
 
 
 const cartSchema = new mongoose.Schema({
-    products: [String]
+    products: [{
+        id: {
+            type: String
+        },
+        quantity: {
+            type: Number
+        }
+    }]
 })
 
 export default cartSchema

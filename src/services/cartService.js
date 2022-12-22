@@ -1,47 +1,29 @@
-import fs from 'fs'
-import usersJson from "../../model/carts/carts.json"
-
+import CartService from '../DAO/carts/index.js'
+const cart = await CartService()
 class Service {
     constructor() { }
 
-    getAllCarts = async () => {
-        // const getAllCarts = await fs.promises.readFile(`./model/carts/carts.json`, 'utf8')
-        // const parsedCarts = JSON.parse(getAllCarts)
-        return parsedCarts
-    }
     addNewCart = async () => {
-        const getAllCarts = await this.getAllCarts()
-        const newCart = {
-            id: getAllCarts.length + 1,
-            timestamp: new Date().getTime(),
-            products: []
-        }
-        getAllCarts.push(newCart)
-        await fs.promises.writeFile(`./model/carts/carts.json`, JSON.stringify(getAllCarts))
-        return newCart
-    }
+        try {
+            const newEntry = await cart.create()
+            return newEntry
+        } catch (error) {
+            console.error("No se pudo agregar un nuevo carrito", error)
 
-    getCartById = async (id) => {
-        const getAllCarts = await this.getAllCarts()
-        const cartFiltered = getAllCarts.filter(cart => cart.id === id)
-        return cartFiltered
+        }
     }
 
     deleteCart = async (id) => {
-        const getAllCarts = await this.getAllCarts()
-        const AllCartsFiltered = getAllCarts.filter(cart => cart.id != id)
-        await fs.promises.writeFile(`./model/carts/carts.json`, JSON.stringify(AllCartsFiltered))
+        const deletedCart = await cart.delete(id)
+        // const getAllCarts = await this.getAllCarts()
+        // const AllCartsFiltered = getAllCarts.filter(cart => cart.id != id)
+        // await fs.promises.writeFile(`./model/carts/carts.json`, JSON.stringify(AllCartsFiltered))
         return id
     }
 
-    getCartProducts = async (id) => {
-        const getCartById = await this.getCartById(id)
-        return getCartById[0].products
-    }
-
     addNewProduct = async (id, newProduct) => {
-        const getAllCarts = await this.getAllCarts()
-        const getCartById = await this.getCartById(id)
+        // const getAllCarts = await this.getAllCarts()
+        // const getCartById = await this.getCartById(id)
         const indexOfCart = getAllCarts.findIndex(cart => cart.id === getCartById[0].id)
 
         getCartById[0].products.push(newProduct)
@@ -50,6 +32,20 @@ class Service {
 
         return newProduct
     }
+
+    getCartById = async (id) => {
+        const getAllCarts = await this.getAllCarts()
+        const cartFiltered = getAllCarts.filter(cart => cart.id === id)
+        return cartFiltered
+    }
+
+
+    getCartProducts = async (id) => {
+        const getCartById = await this.getCartById(id)
+        return getCartById[0].products
+    }
+
+
 
     deleteProduct = async (cartId, productId) => {
         const getAllCarts = await this.getAllCarts()
