@@ -1,16 +1,17 @@
-//requiero la clase Router del módulo de express
-const router = require('express').Router()
+//import la clase Router del módulo de express
+import express from 'express'
+const router = express.Router()
 
-//requiero las rutas de carritos
-const productsRoutes = require('./products.routes.js')
-const cartRoutes = require('./cart.routes.js')
+//importo las rutas de carritos
+import productsRoutes from './products.routes.js'
+import cartRoutes from './cart.routes.js'
 
 //defino que las rutas de products contengan "/"
 router.use('/productos', productsRoutes)
-
 router.use('/carrito', cartRoutes)
 
+router.get('/*', (_, res) => {
+    res.status(404).json({ status: 404, message: `Not found` })
+})
 
-router.get('*', (req, res) => { logger.warn(`Ruta ${req.url} con metodo ${req.method} no encontrada en el servidor.`) })
-
-module.exports = router
+export default router

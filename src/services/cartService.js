@@ -1,74 +1,48 @@
-const fs = require('fs')
-const usersJson = require("../../model/carts/carts.json")
+import CartService from '../DAO/carts/index.js'
+const cart = await CartService()
+class Service {
+    constructor() { }
 
-class Cart {
-    constructor(id, timestamp, products) {
-        this.id = id
-        this.timestamp = timestamp
-        this.products = products
-    }
-    getAllCarts = async () => {
-        const getAllCarts = await fs.promises.readFile(`./model/carts/carts.json`, 'utf8')
-        const parsedCarts = JSON.parse(getAllCarts)
-        return parsedCarts
-    }
     addNewCart = async () => {
-        const getAllCarts = await this.getAllCarts()
-        const newCart = {
-            id: getAllCarts.length + 1,
-            timestamp: new Date().getTime(),
-            products: []
+        try {
+            const newEntry = await cart.create()
+            return newEntry
+        } catch (error) {
+            console.error("No se pudo agregar un nuevo carrito", error)
         }
-        getAllCarts.push(newCart)
-        await fs.promises.writeFile(`./model/carts/carts.json`, JSON.stringify(getAllCarts))
-        return newCart
-    }
-
-    getCartById = async (id) => {
-        const getAllCarts = await this.getAllCarts()
-        const cartFiltered = getAllCarts.filter(cart => cart.id === id)
-        return cartFiltered
     }
 
     deleteCart = async (id) => {
-        const getAllCarts = await this.getAllCarts()
-        const AllCartsFiltered = getAllCarts.filter(cart => cart.id != id)
-        await fs.promises.writeFile(`./model/carts/carts.json`, JSON.stringify(AllCartsFiltered))
-        return id
+        const deletedCart = await cart.delete(id)
+        return deletedCart
     }
+
+    addNewProduct = async (cartId, productId, quantity) => {
+        const addProduct = await cart.addItem(cartId, productId, quantity)
+        return addProduct
+    }
+
+    getCartById = async (id) => {
+        const getCart = await cart.getById(id)
+        return getCart
+    }
+
 
     getCartProducts = async (id) => {
         const getCartById = await this.getCartById(id)
-        return getCartById[0].products
+        return getCartById.products
     }
 
-    addNewProduct = async (id, newProduct) => {
-        const getAllCarts = await this.getAllCarts()
-        const getCartById = await this.getCartById(id)
-        const indexOfCart = getAllCarts.findIndex(cart => cart.id === getCartById[0].id)
 
-        getCartById[0].products.push(newProduct)
-        getAllCarts[indexOfCart] = getCartById[0]
-        await fs.promises.writeFile(`./model/carts/carts.json`, JSON.stringify(getAllCarts))
-
-        return newProduct
-    }
 
     deleteProduct = async (cartId, productId) => {
-        const getAllCarts = await this.getAllCarts()
-        const getCartById = await this.getCartById(cartId)
-        const indexOfCart = getAllCarts.findIndex(cart => cart.id === getCartById[0].id)
-
-        getCartById[0].products = getCartById[0].products.filter(product => product.id !== productId)
-        getAllCarts[indexOfCart].products = getCartById[0].products
-
-        await fs.promises.writeFile(`./model/carts/carts.json`, JSON.stringify(getAllCarts))
-        return productId
+        const deletedProduct = await cart.deleteItem(cartId, productId)
+        return deletedProduct
     }
 
 }
 
-const cartService = new Cart(usersJson)
+const cartService = new Service()
 
-module.exports = { cartService }
+export { cartService }
 
