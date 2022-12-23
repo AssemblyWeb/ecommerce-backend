@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 
 const cartSchema = new mongoose.Schema({
     products: [{
-        id: {
+        productId: {
             type: String
         },
         quantity: {

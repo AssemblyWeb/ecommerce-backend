@@ -4,9 +4,9 @@ import { addNewCart, deleteCart, getCartProducts, addNewProduct, deleteProduct }
 import loginMiddleware from '../middlewares/loginMiddleware.js'
 
 router.post('/', loginMiddleware, addNewCart)
-router.post('/:cartId/productos', loginMiddleware, addNewProduct)
 router.delete('/:cartId', loginMiddleware, deleteCart)
 router.get('/:cartId/productos', loginMiddleware, getCartProducts)
+router.post('/:cartId/productos', loginMiddleware, addNewProduct)
 router.delete('/:cartId/productos/:productId', loginMiddleware, deleteProduct)
 
 export default router

@@ -12,7 +12,7 @@ const addNewCart = async (_, res, next) => {
 const deleteCart = async (req, res, next) => {
     try {
         const { cartId } = req.params
-        const deleteCart = await cartService.deleteCart(cartId)
+        await cartService.deleteCart(cartId)
         res.status(204).json({ status: 204 })
     } catch (error) {
         next(error)
@@ -22,7 +22,7 @@ const deleteCart = async (req, res, next) => {
 const getCartProducts = async (req, res, next) => {
     try {
         const { cartId } = req.params
-        const getCartProducts = await cartService.getCartProducts(+cartId)
+        const getCartProducts = await cartService.getCartProducts(cartId)
         res.status(201).json({ status: 201, success: true, data: getCartProducts })
     } catch (error) {
         next(error)
@@ -32,8 +32,8 @@ const getCartProducts = async (req, res, next) => {
 const addNewProduct = async (req, res, next) => {
     try {
         const { cartId } = req.params
-        const newProduct = { id, quantity } = req.body
-        const addNewProduct = await cartService.addNewProduct(cartId, newProduct)
+        const { productId, quantity } = req.body
+        const addNewProduct = await cartService.addNewProduct(cartId, productId, quantity)
         res.status(201).json({ status: 201, success: true, data: addNewProduct })
     } catch (error) {
         next(error)
@@ -43,7 +43,7 @@ const addNewProduct = async (req, res, next) => {
 const deleteProduct = async (req, res, next) => {
     try {
         const { cartId, productId } = req.params
-        const deleteProduct = await cartService.deleteProduct(+cartId, +productId)
+        const deleteProduct = await cartService.deleteProduct(cartId, productId)
         res.status(204).json({ status: 204, success: true, data: deleteProduct })
     } catch (error) {
         next(error)

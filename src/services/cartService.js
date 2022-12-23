@@ -9,54 +9,35 @@ class Service {
             return newEntry
         } catch (error) {
             console.error("No se pudo agregar un nuevo carrito", error)
-
         }
     }
 
     deleteCart = async (id) => {
         const deletedCart = await cart.delete(id)
-        // const getAllCarts = await this.getAllCarts()
-        // const AllCartsFiltered = getAllCarts.filter(cart => cart.id != id)
-        // await fs.promises.writeFile(`./model/carts/carts.json`, JSON.stringify(AllCartsFiltered))
-        return id
+        return deletedCart
     }
 
-    addNewProduct = async (id, newProduct) => {
-        // const getAllCarts = await this.getAllCarts()
-        // const getCartById = await this.getCartById(id)
-        const indexOfCart = getAllCarts.findIndex(cart => cart.id === getCartById[0].id)
-
-        getCartById[0].products.push(newProduct)
-        getAllCarts[indexOfCart] = getCartById[0]
-        await fs.promises.writeFile(`./model/carts/carts.json`, JSON.stringify(getAllCarts))
-
-        return newProduct
+    addNewProduct = async (cartId, productId, quantity) => {
+        const addProduct = await cart.addItem(cartId, productId, quantity)
+        return addProduct
     }
 
     getCartById = async (id) => {
-        const getAllCarts = await this.getAllCarts()
-        const cartFiltered = getAllCarts.filter(cart => cart.id === id)
-        return cartFiltered
+        const getCart = await cart.getById(id)
+        return getCart
     }
 
 
     getCartProducts = async (id) => {
         const getCartById = await this.getCartById(id)
-        return getCartById[0].products
+        return getCartById.products
     }
 
 
 
     deleteProduct = async (cartId, productId) => {
-        const getAllCarts = await this.getAllCarts()
-        const getCartById = await this.getCartById(cartId)
-        const indexOfCart = getAllCarts.findIndex(cart => cart.id === getCartById[0].id)
-
-        getCartById[0].products = getCartById[0].products.filter(product => product.id !== productId)
-        getAllCarts[indexOfCart].products = getCartById[0].products
-
-        await fs.promises.writeFile(`./model/carts/carts.json`, JSON.stringify(getAllCarts))
-        return productId
+        const deletedProduct = await cart.deleteItem(cartId, productId)
+        return deletedProduct
     }
 
 }

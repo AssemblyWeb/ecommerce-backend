@@ -23,6 +23,30 @@ class ContainerMongo {
         if (!update) throw new Error("Product not updated")
         return update
     }
+    async addItem(cartId, productId, quantity) {
+        const product = { productId, quantity }
+        let cart = await this.model.findById(cartId)
+        if (!cart) return // handlear respuesta
+
+        let findProduct = cart.products.find(product => product.productId == productId)
+        console.log(findProduct)
+        if (!findProduct) {
+            cart.products.push(product)
+        } else {
+            findProduct.quantity += quantity
+        }
+        await cart.save()
+        return cart
+    }
+
+    async deleteItem(cartId, productId) {
+        let cart = await this.getById(cartId)
+        if (!cart) return // handlear respuesta
+
+        cart.products = cart.products.filter(product => product.productId != productId)
+        await cart.save()
+        return cart
+    }
 
 }
 
